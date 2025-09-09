@@ -209,3 +209,22 @@ textarea:focus {
     border-radius: 6px;
     border: 1px solid var(--border);
 }
+
+.repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #a7c3ff;
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background 120ms ease, color 120ms ease, transform 80ms ease;
+}
+.repo-link:hover {
+    background: rgba(59, 130, 246, 0.12);
+    color: #d6e6ff;
+    transform: translateY(-1px);
+}
+.repo-link svg {
+    fill: currentColor;
+}
