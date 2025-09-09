@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gemini API Key Checker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="wrap">
+        <div class="card">
+            <h1 class="title">Gemini API Key Checker</h1>
+            <p class="subtitle">Paste your Google Gemini API key below and verify it without leaving your browser.</p>
+
+            <div class="row">
+                <div class="field">
+                    <input id="apiKey" type="password" placeholder="Enter your API key" autocomplete="off" spellcheck="false" aria-label="API key">
+                    <button id="toggleVis" class="toggle" title="Show/Hide">👁️</button>
+                </div>
+                <button id="checkBtn">Check Key</button>
+            </div>
+
+            <div id="result" class="result muted">Idle. Enter a key and press “Check Key”.</div>
+            <div class="hint">This tool sends a GET request to <code>https://generativelanguage.googleapis.com/v1/models</code> using <code>Authorization: Bearer &lt;API_KEY&gt;</code>.</div>
+
+            <div class="section-title">Or check multiple keys (one per line)</div>
+            <textarea id="apiKeys" placeholder="KEY_1\nKEY_2\nKEY_3"></textarea>
+            <div class="row" style="justify-content: flex-end; margin-top: 10px;">
+                <button id="checkManyBtn">Check Keys</button>
+            </div>
+            <div id="multiResult" class="result muted">No batch check run yet.</div>
+        </div>
+    </div>
+
+
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+
