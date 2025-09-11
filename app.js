@@ -1,5 +1,9 @@
 
 (function () {
+    const singleTab = document.getElementById('singleTab');
+    const multiTab = document.getElementById('multiTab');
+    const singleSection = document.getElementById('singleSection');
+    const multiSection = document.getElementById('multiSection');
     const apiKeyInput = document.getElementById('apiKey');
     const toggleVisBtn = document.getElementById('toggleVis');
     const checkBtn = document.getElementById('checkBtn');
@@ -22,10 +26,35 @@
         return (raw || '').trim();
     }
 
+    function setMode(isSingle) {
+        singleSection.hidden = !isSingle;
+        multiSection.hidden = isSingle;
+        singleTab.classList.toggle('active', isSingle);
+        singleTab.setAttribute('aria-selected', String(isSingle));
+        multiTab.classList.toggle('active', !isSingle);
+        multiTab.setAttribute('aria-selected', String(!isSingle));
+    }
+
+    if (singleTab && multiTab) {
+        singleTab.addEventListener('click', function () { setMode(true); });
+        multiTab.addEventListener('click', function () { setMode(false); });
+    }
+
     toggleVisBtn.addEventListener('click', function () {
         const isPassword = apiKeyInput.type === 'password';
         apiKeyInput.type = isPassword ? 'text' : 'password';
-        toggleVisBtn.textContent = isPassword ? '🙈' : '👁️';
+        if (isPassword) {
+            // now visible → show eye-off (stroke-based)
+            toggleVisBtn.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">\
+<path d="M3 3l18 18"/>\
+<path d="M10.73 5.08A10.5 10.5 0 0 1 21 12c-1.84 3.76-5.14 6-9 6-1.23 0-2.4-.24-3.46-.68"/>\
+<path d="M6.53 6.53A10.6 10.6 0 0 0 3 12c1.84 3.76 5.14 6 9 6 1.64 0 3.18-.38 4.5-1.05"/>\
+<path d="M9.88 9.88A3 3 0 0 0 12 15a3 3 0 0 0 2.12-.88"/>\
+</svg>';
+        } else {
+            // now hidden → show open eye (filled)
+            toggleVisBtn.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M12 5c-5.5 0-9.5 4.5-10.5 6 .99 1.5 5 6 10.5 6s9.51-4.5 10.5-6C21.5 9.5 17.5 5 12 5Zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-2.5A1.5 1.5 0 1 0 12 9a1.5 1.5 0 0 0 0 3.5Z"/></svg>';
+        }
     });
 
     checkBtn.addEventListener('click', async function () {
