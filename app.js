@@ -40,10 +40,9 @@
         setResult('Checking key…', 'muted');
 
         try {
-            const response = await fetch('https://generativelanguage.googleapis.com/v1/models', {
+            const response = await fetch('https://generativelanguage.googleapis.com/v1/models?key=' + encodeURIComponent(key), {
                 method: 'GET',
                 headers: {
-                    'Authorization': 'Bearer ' + key,
                     'Accept': 'application/json'
                 }
             });
@@ -76,10 +75,9 @@
 
     async function checkOneKeyRaw(key) {
         try {
-            const response = await fetch('https://generativelanguage.googleapis.com/v1/models', {
+            const response = await fetch('https://generativelanguage.googleapis.com/v1/models?key=' + encodeURIComponent(key), {
                 method: 'GET',
                 headers: {
-                    'Authorization': 'Bearer ' + key,
                     'Accept': 'application/json'
                 }
             });

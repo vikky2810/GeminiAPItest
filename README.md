@@ -60,4 +60,22 @@ Notes:
 ### Disclaimer
 This tool performs a lightweight auth reachability check only. It doesn’t exercise model quotas, permissions, or billing limits beyond verifying the token can access the models endpoint.
 
+### CLI test with .env
+You can validate a key from Node (outside the browser) using the included script.
+
+1. Copy `ENV.EXAMPLE` to `.env` and put your real key:
+```bash
+cp ENV.EXAMPLE .env
+```
+2. Install deps and run the test:
+```bash
+npm install
+npm run test:api
+```
+Exit codes:
+- 0: Key valid (200) or potentially restricted (non-401)
+- 1: Invalid (401)
+- 2: Missing env var
+- 3: Network error
+
 
