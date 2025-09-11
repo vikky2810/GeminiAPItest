@@ -1,5 +1,8 @@
 ## Gemini API Key Checker (HTML/CSS/JS)
 
+### Live Demo
+- Visit the hosted app: https://gemini-api-checker.vercel.app/
+
 A minimal, single-page web app to validate a Google Gemini API key from your browser. Paste a key to check a single key or enter multiple keys to validate them in parallel. No keys are stored.
 
 ### Features
