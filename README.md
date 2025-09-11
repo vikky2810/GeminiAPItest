@@ -1,5 +1,8 @@
 ## Gemini API Key Checker (HTML/CSS/JS)
-![Gemini API Key Checker](./gemini-api-checker.png)
+
+<p align="center">
+  <img src="./gemini-api-checker.png" alt="Gemini API Key Checker">
+</p>
 
 ### Live Demo
 - Visit the hosted app: https://gemini-api-checker.vercel.app/
