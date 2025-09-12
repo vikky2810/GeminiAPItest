@@ -14,12 +14,26 @@
 
     function setResult(message, cls) {
         resultEl.className = 'result ' + (cls || '');
-        resultEl.textContent = message;
+        resultEl.style.opacity = '0';
+        resultEl.style.transform = 'translateY(10px)';
+        
+        setTimeout(() => {
+            resultEl.textContent = message;
+            resultEl.style.opacity = '1';
+            resultEl.style.transform = 'translateY(0)';
+        }, 150);
     }
 
     function setMultiResult(message, cls) {
         multiResultEl.className = 'result ' + (cls || '');
-        multiResultEl.textContent = message;
+        multiResultEl.style.opacity = '0';
+        multiResultEl.style.transform = 'translateY(10px)';
+        
+        setTimeout(() => {
+            multiResultEl.textContent = message;
+            multiResultEl.style.opacity = '1';
+            multiResultEl.style.transform = 'translateY(0)';
+        }, 150);
     }
 
     function sanitizeKey(raw) {
@@ -62,10 +76,22 @@
         if (!key) {
             setResult('Please paste an API key first.', 'bad');
             apiKeyInput.focus();
+            // Add shake animation to input
+            apiKeyInput.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                apiKeyInput.style.animation = '';
+            }, 500);
             return;
         }
 
         checkBtn.disabled = true;
+        checkBtn.style.transform = 'scale(0.98)';
+        checkBtn.style.opacity = '0.8';
+        
+        // Add loading animation
+        const originalText = checkBtn.textContent;
+        checkBtn.textContent = 'Checking...';
+        
         setResult('Checking key…', 'muted');
 
         try {
@@ -78,8 +104,18 @@
 
             if (response.status === 200) {
                 setResult('✅ Valid & working API key', 'ok');
+                // Add success animation
+                checkBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                setTimeout(() => {
+                    checkBtn.style.background = '';
+                }, 2000);
             } else if (response.status === 401) {
                 setResult('❌ Invalid API key', 'bad');
+                // Add error animation
+                checkBtn.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+                setTimeout(() => {
+                    checkBtn.style.background = '';
+                }, 2000);
             } else {
                 setResult('⚠️ Key might be valid but restricted (status: ' + response.status + ')', 'warn');
             }
@@ -87,6 +123,9 @@
             setResult('⚠️ Network or CORS error. Details: ' + (error && error.message ? error.message : String(error)), 'warn');
         } finally {
             checkBtn.disabled = false;
+            checkBtn.textContent = originalText;
+            checkBtn.style.transform = '';
+            checkBtn.style.opacity = '';
         }
     });
 
@@ -125,10 +164,22 @@
         if (lines.length === 0) {
             setMultiResult('Please enter at least one API key.', 'bad');
             apiKeysTextarea.focus();
+            // Add shake animation to textarea
+            apiKeysTextarea.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                apiKeysTextarea.style.animation = '';
+            }, 500);
             return;
         }
 
         checkManyBtn.disabled = true;
+        checkManyBtn.style.transform = 'scale(0.98)';
+        checkManyBtn.style.opacity = '0.8';
+        
+        // Add loading animation
+        const originalText = checkManyBtn.textContent;
+        checkManyBtn.textContent = 'Checking...';
+        
         setMultiResult('Checking ' + lines.length + ' key' + (lines.length > 1 ? 's' : '') + '…', 'muted');
 
         const checks = await Promise.allSettled(lines.map(k => checkOneKeyRaw(k)));
@@ -147,7 +198,28 @@
             return '• ' + label + ' → ⚠️ Network/CORS error';
         });
 
+        // Count results for animation
+        const validCount = messages.filter(m => m.includes('✅')).length;
+        const invalidCount = messages.filter(m => m.includes('❌')).length;
+        
         setMultiResult(messages.join('\n'));
+        
+        // Add result-based animation
+        if (validCount > 0 && invalidCount === 0) {
+            checkManyBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        } else if (validCount === 0 && invalidCount > 0) {
+            checkManyBtn.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+        } else if (validCount > 0 && invalidCount > 0) {
+            checkManyBtn.style.background = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+        }
+        
+        setTimeout(() => {
+            checkManyBtn.style.background = '';
+        }, 2000);
+        
         checkManyBtn.disabled = false;
+        checkManyBtn.textContent = originalText;
+        checkManyBtn.style.transform = '';
+        checkManyBtn.style.opacity = '';
     });
 })();
